@@ -1,0 +1,14 @@
+{
+  "name": "note-app",
+  "version": "1.0.0",
+  "description": "Note taking app to understand NodeJS fundamentals",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Manjunatha D",
+  "license": "MIT"
+}
