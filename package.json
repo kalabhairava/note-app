@@ -6,9 +6,11 @@
   "scripts": {
     "test": "npm test"
   },
-  "keywords": [
-    "nodejs"
-  ],
+  "keywords": ["nodejs"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kalabhairava/note-app.git"
+  },
   "author": "Manjunatha D",
   "license": "MIT",
   "dependencies": {
