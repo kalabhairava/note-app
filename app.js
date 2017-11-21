@@ -8,32 +8,44 @@ const fs = require("fs");
 //---------------------------------------
 // 3rd Party modules
 //---------------------------------------
+const yargs = require("yargs");
 
 //---------------------------------------
 // Internal dependencies
 //---------------------------------------
 const notes = require("./notes");
 
-// process object contains the list of all the arguments passed to the app
-console.log(process.argv);
+// yargs stores the arguments passed to the app in `yargs.argv`
+const argv = yargs.argv;
+// console.log(`yargs.argv==> ${argv}`);
+// logs yargs.argv==> [object Object], which is not what I expected. When you use a variable inside string templates, I think it converts it into string first and then prints it.
+
+console.log("yargs.argv ==> ", argv);
+// logs yargs.argv ==>  { _: [ 'add', 'list', 'remove' ], '$0': 'app.js' }
+// yargs.argv is an object with 2 properties
+// 1. _ (underscore) => an array of arguments passed
+// 2. $0 => name of the file executed
+
+// process object has a property called `argv` which contains a list of all the arguments passed to the app
+// console.log("process.argv ==> ", process.argv);
 // argv[0] => path to the node binary
 // argv[1] => path to the file executed
 // argv[2...n] => arguments passed to the node app
 
 // grab the command
-const command = process.argv[2];
+const command = argv._[0]; // process.argv[2];
 console.log(`Command: ${command}`);
 
 // Take action based on the user command
-// The user passed command via comamnd line => e.g. node app.js list
+// The user passes command via comamnd line => e.g. node app.js list
 if (command === "add") {
-  console.log("Adding new note");
+  notes.addNote(argv.title, argv.body);
 } else if (command === "list") {
-  console.log("Listing all notes");
+  notes.getAll();
 } else if (command === "read") {
-  console.log("Fetching note");
+  notes.getNote(argv.title);
 } else if (command === "remove") {
-  console.log("Removing that sucker");
+  notes.removeNote(argv.title);
 } else {
   console.log("Command not recognized");
 }
@@ -47,3 +59,23 @@ if (command === "add") {
 //                                process.argv contains '--title="Boom Boom" ' as a single argument. Not as intended, again.
 
 // To fix all our woes with reading command line arguments, use `yargs`, a 3rd party npm module.
+// TIP: Always go through the docs before you use a 3rd party module to understand what it's all about
+// yargs has an internal parser that parses arguments for us.
+// --key=value: yargs adds a property 'key: value' to the argv object
+// If the argument doesn't start with --, yargs adds the argument to the _ array
+// When to use --key=value type of arguments? => When you want to send variable data to the app. e.g. title and body of a note
+// when you pass:
+// title="boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom', '$0': 'app.js' } // It adds title as a property of argv object
+// title="boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
+// title "boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
+// process.argv in the same case prints =>
+// [ '/usr/bin/node',
+// '/home/shiva/projects/note-app/app.js',
+// 'add',
+// '--title',
+// 'boom boom' ]
+
+// TypeError: thrown when you try to run an operation which is not supported by that type.
+// e.g. Trying to run a variable which is not a function
+// const a = 10;
+// a();

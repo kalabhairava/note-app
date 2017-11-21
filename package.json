@@ -10,5 +10,8 @@
     "nodejs"
   ],
   "author": "Manjunatha D",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^4.7.1"
+  }
 }
