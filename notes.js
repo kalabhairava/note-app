@@ -5,11 +5,56 @@ console.log("Starting notes.js");
 //---------------------------------------
 const fs = require("fs");
 
-const addNote = (title, body) => {
-  console.log("Adding Note: ", title, body);
+//---------------------------------------
+// Private variables
+//---------------------------------------
 
-  // an array of notes
+const notesFile = 'notes.json';
+
+//---------------------------------------
+// Private functions
+//---------------------------------------
+
+/**
+ * Fetches all the existing notes
+ * @returns {Array} an array of notes
+ */
+const fetchNotes = () => {
+
   let notes = [];
+
+  // Get the previous notes
+  // Wrapping this in try-catch block, as fs.readFileSync() will throw an error the first time it is run since the file notes.json does not exist at that point
+  try {
+    // throws an error if the file does not exist, or if the file has invalid data
+    notes = JSON.parse(fs.readFileSync(notesFile));
+  } catch (error) {
+    console.log('Error reading file: File does not exist, or it contains invalid data');
+  }
+
+  return notes;
+};
+
+/**
+ * Saves notes to a file
+ * @param {Array} notes An array of notes 
+ */
+const saveNotes = (notes) => {
+  // saves notes to a file
+  fs.writeFileSync(notesFile, JSON.stringify(notes));
+};
+
+
+//---------------------------------------
+// Public methods
+//---------------------------------------
+
+/**
+ * Adds a new note
+ * @param {string} title title of the note
+ * @param {string} body body of the note
+ */
+const addNote = (title, body) => {
 
   // new note to be added
   const note = {
@@ -17,39 +62,45 @@ const addNote = (title, body) => {
     body
   };
 
-  // Get the previous notes
-  // Wrapping this in try-catch block, as fs.readFileSync() will throw an error the first time it is run since the file notes.json does not exist at that point
-  try {
-    // throws an erro if the file does not exist, or if the file has invalid data
-    notes = JSON.parse(fs.readFileSync('notes.json'));
-  } catch (error) {
-    // Do nothing. We have already initialized the notes array to an empty array
-    // If the file doesn't exist, or has invalid data, notes array will be empty
-  }
+  const notes = fetchNotes();
 
-  // Make sure that no duplicate notes are saved (duplicate notes => notes with same title)
   // contains all the duplicate notes
   const duplicateNotes = notes.filter((prevNote) => prevNote.title === title);
 
+  // Make sure that no duplicate notes are saved (duplicate notes => notes with same title)
   if (duplicateNotes.length === 0) {
     notes.push(note);
-
-    // saves notes to a file
-    fs.writeFileSync('notes.json', JSON.stringify(notes))
+    saveNotes(notes);
+    console.log('Note added:');
+    console.log('-------------');
+    console.log(`Title: ${title}`);
+    console.log(`Body: ${body}`);
   } else {
     console.log(`Note with the title ${title} already exists. Please add the note with a new title`);
   }
 };
 
+/**
+ * Returns all the existing notes
+ * @returns {Array} an array of all the existing notes
+ */
 const getAll = () => {
   console.log("Getting all notes");
 };
 
-const getNote = title => {
+/**
+ * Returns the specified note
+ * @param {string} title the title of the note to be retrieved
+ */
+const getNote = (title) => {
   console.log("Getting note: ", title);
 };
 
-const removeNote = title => {
+/**
+ *Removes the specified note
+ * @param {string} title the title of the note to be removed
+ */
+const removeNote = (title) => {
   console.log("Removing this sucker: ", title);
 };
 
