@@ -39,13 +39,40 @@ console.log(`Command: ${command}`);
 // Take action based on the user command
 // The user passes command via comamnd line => e.g. node app.js list
 if (command === "add") {
-  notes.addNote(argv.title, argv.body);
+  const note = notes.addNote(argv.title, argv.body);
+
+  if (note) {
+    console.log('Note added:');
+    notes.logNote(note);
+  } else {
+    console.log(`Note with the title ${argv.title} already exists. Please add the note with a new title`);
+  }
 } else if (command === "list") {
-  notes.getAll();
+  const noteList = notes.getAll();
+
+  if (noteList.length > 0) {
+    noteList.forEach((note) => {
+      notes.logNote(note);
+    });
+  } else {
+    console.log('No notes found. Time to add some notes!');
+  }
 } else if (command === "read") {
-  notes.getNote(argv.title);
+  const note = notes.getNote(argv.title);
+  if (note) {
+    console.log('Note fetched:');
+    notes.logNote(note);
+  } else {
+    console.log(`Note ${argv.title} was not found`);
+  }
 } else if (command === "remove") {
-  notes.removeNote(argv.title);
+  const noteRemoved = notes.removeNote(argv.title);
+
+  if (noteRemoved) {
+    console.log(`Removed this sucker: ${argv.title}`);
+  } else {
+    console.log(`Note ${argv.title} was not found`);
+  }
 } else {
   console.log("Command not recognized");
 }

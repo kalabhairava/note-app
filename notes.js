@@ -71,12 +71,9 @@ const addNote = (title, body) => {
   if (duplicateNotes.length === 0) {
     notes.push(note);
     saveNotes(notes);
-    console.log('Note added:');
-    console.log('-------------');
-    console.log(`Title: ${title}`);
-    console.log(`Body: ${body}`);
+    return note;
   } else {
-    console.log(`Note with the title ${title} already exists. Please add the note with a new title`);
+    return null;
   }
 };
 
@@ -86,18 +83,22 @@ const addNote = (title, body) => {
  */
 const getAll = () => {
   console.log("Getting all notes");
+  return fetchNotes();
 };
 
 /**
- * Returns the specified note
+ * Returns the note with the given title
  * @param {string} title the title of the note to be retrieved
  */
 const getNote = (title) => {
   console.log(`Getting this sucker: ${title}`);
+  const notes = fetchNotes();
+  const filteredNotes = notes.filter((note) => note.title === title);
+  return filteredNotes[0]; // returns undefined if filteredNotes is empty (`undefined` is returned when you access non-existent value of an array)
 };
 
 /**
- *Removes the specified note
+ * Removes the note with the given title
  * @param {string} title the title of the note to be removed
  */
 const removeNote = (title) => {
@@ -105,11 +106,22 @@ const removeNote = (title) => {
   const filteredNotes = notes.filter((note) => note.title !== title);
   saveNotes(filteredNotes);
 
-  if (notes.length !== filteredNotes.length) {
-    console.log(`Removed this sucker: ${title}`);
-  } else {
-    console.log(`Note ${title} was not found`);
-  }
+  return notes.length !== filteredNotes.length;
+};
+
+// D.R.Y => Don't Repeat Yourself
+// IMPORTANT: If you find yourself copy-pasting code, perhaps it's time to create a functin for it
+// Created separate function to print a note as the same functionality was repeated in multiple places.
+
+/**
+ * logs the given note
+ * @param {Object} note the note to be logged
+ */
+const logNote = (note) => {
+  console.log('\n--------------------------------------------');
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+  console.log('----------------------------------------------');
 };
 
 // Different ways of exporting modules
@@ -121,5 +133,6 @@ module.exports = {
   addNote, // ES6 syntax. Identical to addNote: addNote in ES5 syntax. When the key and value names of a property are same, you can just use the key name.
   getAll,
   getNote,
-  removeNote
+  removeNote,
+  logNote
 };
