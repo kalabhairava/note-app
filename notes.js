@@ -93,7 +93,7 @@ const getAll = () => {
  * @param {string} title the title of the note to be retrieved
  */
 const getNote = (title) => {
-  console.log("Getting note: ", title);
+  console.log(`Getting this sucker: ${title}`);
 };
 
 /**
@@ -101,7 +101,15 @@ const getNote = (title) => {
  * @param {string} title the title of the note to be removed
  */
 const removeNote = (title) => {
-  console.log("Removing this sucker: ", title);
+  const notes = fetchNotes();
+  const filteredNotes = notes.filter((note) => note.title !== title);
+  saveNotes(filteredNotes);
+
+  if (notes.length !== filteredNotes.length) {
+    console.log(`Removed this sucker: ${title}`);
+  } else {
+    console.log(`Note ${title} was not found`);
+  }
 };
 
 // Different ways of exporting modules
