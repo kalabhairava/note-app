@@ -1,10 +1,1 @@
-[
-    {
-        "title": "first-note",
-        "body": "body of first note"
-    },
-    {
-        "title": "second-note",
-        "body": "body of second note"
-    }
-]
+[{"title":"first-note","body":"body of first note"},{"title":"second-note","body":"body of second note"}]

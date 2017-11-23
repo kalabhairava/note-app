@@ -1,5 +1,3 @@
-console.log("Starting app.js");
-
 //---------------------------------------
 // Built in modules
 //---------------------------------------
@@ -20,7 +18,7 @@ const argv = yargs.argv;
 // console.log(`yargs.argv==> ${argv}`);
 // logs yargs.argv==> [object Object], which is not what I expected. When you use a variable inside string templates, I think it converts it into string first and then prints it.
 
-console.log("yargs.argv ==> ", argv);
+//console.log("yargs.argv ==> ", argv);
 // logs yargs.argv ==>  { _: [ 'add', 'list', 'remove' ], '$0': 'app.js' }
 // yargs.argv is an object with 2 properties
 // 1. _ (underscore) => an array of arguments passed
@@ -34,7 +32,7 @@ console.log("yargs.argv ==> ", argv);
 
 // grab the command
 const command = argv._[0]; // process.argv[2];
-console.log(`Command: ${command}`);
+// console.log(`Command: ${command}`);
 
 // Take action based on the user command
 // The user passes command via comamnd line => e.g. node app.js list
@@ -51,9 +49,7 @@ if (command === "add") {
   const noteList = notes.getAll();
 
   if (noteList.length > 0) {
-    noteList.forEach((note) => {
-      notes.logNote(note);
-    });
+    noteList.forEach((note) => notes.logNote(note));
   } else {
     console.log('No notes found. Time to add some notes!');
   }
