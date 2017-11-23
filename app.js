@@ -29,18 +29,20 @@ const bodyConfigForYargs = {
 }
 
 // yargs stores the arguments passed to the app in `yargs.argv`
-//const argv = yargs.argv;
-// console.log(`yargs.argv==> ${argv}`);
-// logs yargs.argv==> [object Object], which is not what I expected. When you use a variable inside string templates, I think it converts it into string first and then prints it.
+// const argv = yargs.argv;
+// console.log(`yargs.argv ==> ${argv}`);
+// logs yargs.argv ==> [object Object], which is not what I expected. When you use a variable inside string templates, I think it converts it into string first and then prints it.
+// When you use a variable inside template literal, it prints variable.toString() in place of ${var}
+// IMPORTANT: Careful while printing objects/arrays inside a template literal, it'll bite you.
 
-//console.log("yargs.argv ==> ", argv);
+// console.log("yargs.argv ==> ", argv);
 // logs yargs.argv ==>  { _: [ 'add', 'list', 'remove' ], '$0': 'app.js' }
 // yargs.argv is an object with 2 properties
 // 1. _ (underscore) => an array of arguments passed
 // 2. $0 => name of the file executed
 
 // Configuring yargs
-// The above usage of yargs is the old one
+// The above usage of yargs is the old unconfigured one
 const argv = yargs
   .command('add', 'Add a new note', { // takes 3 arguments => name of the command, a short description, and a config object
     title: titleConfigForYargs,
@@ -92,7 +94,7 @@ if (command === "add") {
     console.log('No notes found. Time to add some notes!');
   }
 } else if (command === "read") {
-  const note = notes.getNote(argv.title);
+  const note = notes.getNote(argv.title); // returns a boolean value
   if (note) {
     console.log('Note fetched:');
     notes.logNote(note);
@@ -122,13 +124,14 @@ if (command === "add") {
 // To fix all our woes with reading command line arguments, use `yargs`, a 3rd party npm module.
 // TIP: Always go through the docs before you use a 3rd party module to understand what it's all about
 // yargs has an internal parser that parses arguments for us.
-// --key=value: yargs adds a property 'key: value' to the argv object
-// If the argument doesn't start with --, yargs adds the argument to the _ array
+// If the argument starts with '--' (--key=value): yargs adds a property 'key: value' to the argv object
+// If the argument doesn't start with '--', yargs adds the argument to the _ array
 // When to use --key=value type of arguments? => When you want to send variable data to the app. e.g. title and body of a note
 // when you pass:
-// title="boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom', '$0': 'app.js' } // It adds title as a property of argv object
-// title="boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
-// title "boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
+// --title="boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom', '$0': 'app.js' } // It adds title as a property of argv object
+// --title="boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
+// --title "boom boom" => yargs.argv ==>  { _: [ 'add' ], title: 'boom boom', '$0': 'app.js' }
+
 // process.argv in the same case prints =>
 // [ '/usr/bin/node',
 // '/home/shiva/projects/note-app/app.js',
@@ -137,6 +140,6 @@ if (command === "add") {
 // 'boom boom' ]
 
 // TypeError: thrown when you try to run an operation which is not supported by that type.
-// e.g. Trying to run a variable which is not a function
+// e.g. Trying to invoke a variable which is not a function
 // const a = 10;
 // a();

@@ -6,7 +6,7 @@ const person = {
 
 person.age = 25;
 
-debugger;
+debugger; // break-point
 
 person.name = 'Mike';
 

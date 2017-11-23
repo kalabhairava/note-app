@@ -6,7 +6,6 @@ const fs = require("fs");
 //---------------------------------------
 // Private variables
 //---------------------------------------
-
 const notesFile = 'notes.json';
 
 //---------------------------------------
@@ -27,7 +26,8 @@ const fetchNotes = () => {
     // throws an error if the file does not exist, or if the file has invalid data
     notes = JSON.parse(fs.readFileSync(notesFile));
   } catch (error) {
-    console.log('Error reading file: File does not exist, or it contains invalid data');
+    // commenting this log as this sucker started printing annoying message when the app runs for the first time
+    // console.log('Error reading file: File does not exist, or it contains invalid data');
   }
 
   return notes;
@@ -62,7 +62,7 @@ const addNote = (title, body) => {
 
   const notes = fetchNotes();
 
-  // contains all the duplicate notes
+  // get all the duplicate notes
   const duplicateNotes = notes.filter((prevNote) => prevNote.title === title);
 
   // Make sure that no duplicate notes are saved (duplicate notes => notes with same title)
@@ -80,7 +80,7 @@ const addNote = (title, body) => {
  * @returns {Array} an array of all the existing notes
  */
 const getAll = () => {
-  console.log("Getting all notes");
+  // console.log("Getting all notes");
   return fetchNotes();
 };
 
@@ -89,10 +89,9 @@ const getAll = () => {
  * @param {string} title the title of the note to be retrieved
  */
 const getNote = (title) => {
-  console.log(`Getting this sucker: ${title}`);
+  // console.log(`Getting this sucker: ${title}`);
   const notes = fetchNotes();
   const filteredNotes = notes.filter((note) => note.title === title);
-  debugger;
   return filteredNotes[0]; // returns undefined if filteredNotes is empty (`undefined` is returned when you access non-existent value of an array)
 };
 
@@ -105,7 +104,7 @@ const removeNote = (title) => {
   const filteredNotes = notes.filter((note) => note.title !== title);
   saveNotes(filteredNotes);
 
-  return notes.length !== filteredNotes.length;
+  return notes.length !== filteredNotes.length; // returns true if the note was removed
 };
 
 // D.R.Y => Don't Repeat Yourself

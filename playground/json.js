@@ -3,8 +3,9 @@
 // JSON is text, so it is supported almost everywhere.
 
 //---------------------------------------
-// Converting objects to JSON string
+// Converting a JS Value to a JSON string
 //---------------------------------------
+
 var obj = {
   name: "Andrew"
 };
@@ -20,13 +21,13 @@ console.log(stringObj);
 // logs {"name":"Andrew"} ==> notice that the key name is wrapped in quotes. That's a requirement of JSON. The strings have to be wrapped in double quotes, not single quotes.
 
 //---------------------------------------
-// Converting JSON string to JS object
+// Converting a JSON string to a JS value
 //---------------------------------------
 
 // wrap the JSON string in single quotes as the properties inside a JSON object have to be wrapped in double quotes
 const personString = '{"name": "Andrew", "age": 25}';
 
-// JSON.parse converts JSON string to a JS value
+// JSON.parse() converts JSON string to a JS value
 // From IntelliSense => converts JSON string to a object
 const person = JSON.parse(personString);
 
@@ -39,7 +40,7 @@ const person = JSON.parse(personString);
 // const obj = { a: 1
 // , b: 2
 // , c: 3}
-// Prefiing commas provides cleaner git diffs, and doesn't throw an error while parsing with JSON.parse()
+// Prefixing commas provides cleaner git diffs, and doesn't throw an error while parsing with JSON.parse()
 
 console.log(typeof person);
 // logs object
@@ -68,12 +69,13 @@ const originalNoteString = JSON.stringify(originalNote);
 // It will overwrite the file contents every time
 fs.writeFileSync("notes.json", originalNoteString);
 
-// Reading data from file
+// Reading data from file. Returns a buffer
 const noteString = fs.readFileSync("notes.json");
 
-//console.log(noteString);
-// logs originalNoteString
+console.log(noteString);
+// logs <Buffer 7b 22 74 69 74 6c 65 22 3a 22 53 6f 6d 65 20 74 69 74 6c 65 22 2c 22 62 6f 64 79 22 3a 22 53 6f 6d 65 20 62 6f 64 79 22 7d>
 
 // parse JSON string into JS object
 const note = JSON.parse(noteString);
 console.log(note);
+// logs { title: 'Some title', body: 'Some body' }
