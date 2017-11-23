@@ -94,6 +94,7 @@ const getNote = (title) => {
   console.log(`Getting this sucker: ${title}`);
   const notes = fetchNotes();
   const filteredNotes = notes.filter((note) => note.title === title);
+  debugger;
   return filteredNotes[0]; // returns undefined if filteredNotes is empty (`undefined` is returned when you access non-existent value of an array)
 };
 
@@ -118,6 +119,7 @@ const removeNote = (title) => {
  * @param {Object} note the note to be logged
  */
 const logNote = (note) => {
+  debugger;
   console.log('\n--------------------------------------------');
   console.log(`Title: ${note.title}`);
   console.log(`Body: ${note.body}`);
