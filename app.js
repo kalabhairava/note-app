@@ -13,8 +13,23 @@ const yargs = require("yargs");
 //---------------------------------------
 const notes = require("./notes");
 
+//---------------------------------------
+// Private variables
+//---------------------------------------
+const titleConfigForYargs = {
+  describe: 'Title of note', // description of the argument
+  demand: true,              // marks the argument as required. false by default. If the argument is missing, logs => Missing required argument: title 
+  alias: 't'                 // shortcut for arguments
+};
+
+const bodyConfigForYargs = {
+  describe: 'Body of note',
+  demand: true,
+  alias: 'b'
+}
+
 // yargs stores the arguments passed to the app in `yargs.argv`
-const argv = yargs.argv;
+//const argv = yargs.argv;
 // console.log(`yargs.argv==> ${argv}`);
 // logs yargs.argv==> [object Object], which is not what I expected. When you use a variable inside string templates, I think it converts it into string first and then prints it.
 
@@ -23,6 +38,29 @@ const argv = yargs.argv;
 // yargs.argv is an object with 2 properties
 // 1. _ (underscore) => an array of arguments passed
 // 2. $0 => name of the file executed
+
+// Configuring yargs
+// The above usage of yargs is the old one
+const argv = yargs
+  .command('add', 'Add a new note', { // takes 3 arguments => name of the command, a short description, and a config object
+    title: titleConfigForYargs,
+    body: bodyConfigForYargs
+  })
+  .command('list', 'List all the notes', {})
+  .command('read', 'Read a note', {
+    title: titleConfigForYargs
+  })
+  .command('remove', 'Remove a note', {
+    title: titleConfigForYargs
+  })
+  .help()   // to enable --help flag. 
+  // node app.js --help logs
+  // Commands:
+  // add  Add a new note
+
+  // Options:
+  // --help  Show help[boolean]
+  .argv;
 
 // process object has a property called `argv` which contains a list of all the arguments passed to the app
 // console.log("process.argv ==> ", process.argv);
