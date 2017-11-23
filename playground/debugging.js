@@ -33,9 +33,19 @@ console.log(person);
 
 // 1. list(numLines) => prints `numLine` lines above and below the place we have paused
 // 2. n => stands for 'next'. Moves the execution to the next line
-// 3. c => stands for 'continue'. Continues the execution until the next break-point (debugger statement)
+// 3. c => stands for 'continue'. Continues the execution until the next break-point (debugger statement), OR end of the program
 // 4. CTRL + C twice (OR enter .exit) to exit the debug mode
 // 5. repl => READ EVAL PRINT LOOP => kind of console in node environment. Lets you read the values of variables, etc
 //              Type `repl` to enter REPL mode
 // 6. debugger => puts a break-point. Type 'debugger' in the location inside the file where you want to stop the execution. 
 
+//---------------------------------------
+// Debugging via Chrome Dev Tools
+//---------------------------------------
+
+// 1. You don't have to remove 'debugger' statement from the code 
+// 2. Run `node --inspect-brk fileName` => --inspect-brk is a flag. You can also use nodemon here
+// 3. Fire up Chrome browser, and enter `chrome://inspect` in the URL bar
+// 4. Click on 'Open dedicated DevTools for Node'
+// 5. You can toggle the console in sources tab through ESC key
+// 6. console is same as repl 
