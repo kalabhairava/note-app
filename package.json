@@ -4,7 +4,8 @@
   "description": "Note taking app to understand NodeJS fundamentals",
   "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "note": "node app.js"
   },
   "keywords": ["nodejs"],
   "repository": {
